@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    <title>Radiografía Financiera · Mis Finanzas con Luis</title>
+    <meta name="description" content="Descubre en 2 minutos cómo va tu dinero — una herramienta interactiva de Mis Finanzas con Luis." />
+    <meta name="theme-color" content="#FFB100" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+
+    <!-- Open Graph / WhatsApp / Facebook / Instagram link preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://misfinanzasconluis.online/" />
+    <meta property="og:title" content="Radiografía Financiera · Mis Finanzas con Luis" />
+    <meta property="og:description" content="Descubre en 2 minutos cómo va tu dinero — una herramienta interactiva de Mis Finanzas con Luis." />
+    <meta property="og:image" content="https://misfinanzasconluis.online/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_MX" />
+
+    <!-- Twitter Card (por si se comparte ahí también) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Radiografía Financiera · Mis Finanzas con Luis" />
+    <meta name="twitter:description" content="Descubre en 2 minutos cómo va tu dinero." />
+    <meta name="twitter:image" content="https://misfinanzasconluis.online/og-image.jpg" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7DJMJZ93DM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7DJMJZ93DM');
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1372478347828949');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1372478347828949&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+  </head>
+  <body style="margin:0;padding:0;">
+    <div id="root"></div>
+
+    <!--
+      Formulario oculto SOLO para que Netlify detecte y habilite "Netlify Forms"
+      durante el build. El formulario real que ve el usuario está hecho en React
+      (ContactGateScreen) y envía los datos por fetch() a este mismo nombre de
+      formulario ("prospectos"). No borrar ni renombrar los campos sin actualizar
+      también submitLead() en src/App.jsx.
+    -->
+    <form name="prospectos" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="bot-field" />
+      <input type="text" name="nombre" />
+      <input type="text" name="telefono" />
+      <input type="email" name="email" />
+      <input type="text" name="edad" />
+      <input type="text" name="ingreso_mensual" />
+      <input type="text" name="ahorro_mensual" />
+      <input type="text" name="dependientes" />
+      <input type="text" name="tipo_empleo" />
+      <input type="text" name="deudas" />
+      <input type="text" name="tiene_seguro" />
+      <input type="text" name="nivel_confianza" />
+      <input type="text" name="prioridades" />
+      <input type="text" name="presupuesto_proteccion_mensual" />
+      <input type="text" name="meta_ahorro_anual" />
+      <input type="text" name="puntaje" />
+      <input type="text" name="banda" />
+      <input type="text" name="insignia" />
+      <input type="text" name="cobertura_sugerida" />
+      <input type="text" name="acepta_aviso_privacidad" />
+      <input type="text" name="acepta_comunicacion_comercial" />
+    </form>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
