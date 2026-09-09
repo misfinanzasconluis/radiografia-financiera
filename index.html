@@ -92,6 +92,22 @@
       <input type="text" name="acepta_comunicacion_comercial" />
     </form>
 
+    <!--
+      Formulario oculto SEPARADO: solo se usa cuando alguien acepta
+      comunicación comercial DESPUÉS de ya haber enviado su radiografía
+      completa (ej. al compartir su resultado). Así evitamos crear un
+      segundo registro duplicado en "prospectos". No borrar ni renombrar
+      los campos sin actualizar también submitMarketingConsent() en src/App.jsx.
+    -->
+    <form name="consentimiento_marketing" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="consentimiento_marketing" />
+      <input type="hidden" name="bot-field" />
+      <input type="text" name="nombre" />
+      <input type="text" name="telefono" />
+      <input type="email" name="email" />
+      <input type="text" name="acepta_comunicacion_comercial" />
+    </form>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
