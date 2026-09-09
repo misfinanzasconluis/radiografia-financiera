@@ -794,6 +794,29 @@ export default function RadiografiaFinanciera() {
     }
   };
 
+  // Envío LIGERO y separado para cuando alguien acepta comunicación comercial
+  // DESPUÉS de ya haber enviado su radiografía completa (ej. al compartir).
+  // Va a un formulario distinto ("consentimiento_marketing") para no crear
+  // un segundo registro duplicado en "prospectos".
+  const submitMarketingConsent = async () => {
+    const payload = {
+      "form-name": "consentimiento_marketing",
+      nombre: data.name,
+      telefono: data.phone,
+      email: data.email || "(no proporcionado)",
+      acepta_comunicacion_comercial: "Sí",
+    };
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(payload).toString(),
+      });
+    } catch (err) {
+      // silencioso: no bloqueamos el flujo de compartir si esto falla
+    }
+  };
+
   /* -------------------- STEP CONTENT -------------------- */
   function renderQuestion() {
     switch (step) {
@@ -1061,7 +1084,7 @@ export default function RadiografiaFinanciera() {
             }}
           />
         )}
-        {screen === "result" && <ResultScreen data={data} results={results} onRestart={restart} onEdit={() => { setScreen("question"); setStep(0); }} update={update} submitLead={submitLead} />}
+        {screen === "result" && <ResultScreen data={data} results={results} onRestart={restart} onEdit={() => { setScreen("question"); setStep(0); }} update={update} submitMarketingConsent={submitMarketingConsent} />}
       </div>
     </div>
   );
@@ -1377,7 +1400,7 @@ function Timeline({ age }) {
   );
 }
 
-function ResultScreen({ data, results, onRestart, onEdit, update, submitLead }) {
+function ResultScreen({ data, results, onRestart, onEdit, update, submitMarketingConsent }) {
   const heroRef = useRef(null);
   const [sharing, setSharing] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -1420,9 +1443,9 @@ function ResultScreen({ data, results, onRestart, onEdit, update, submitLead }) 
     setMarketingAsked(true);
     if (accepted) {
       update({ consentMarketing: true });
-      if (submitLead) {
+      if (submitMarketingConsent) {
         try {
-          await submitLead({ consentMarketing: true });
+          await submitMarketingConsent();
         } catch (err) {
           // no bloqueamos el compartir si esto falla
         }
