@@ -49,6 +49,22 @@ function buildDoubtsWhatsAppUrl(data, results) {
 const CALENDLY_URL = "https://calendly.com/misfinanzasconluis/online";
 const INSTAGRAM_URL = "https://www.instagram.com/misfinanzasconluis";
 
+/* ---------------------------------------------------------------
+   META PIXEL — eventos del embudo de la Radiografía
+   isCustom=false → evento ESTÁNDAR de Meta (fbq('track', ...)),
+   se usa cuando hay un evento oficial que coincide (mejor para
+   optimización de anuncios). isCustom=true → evento personalizado
+   (fbq('trackCustom', ...)) para pasos que Meta no tiene predefinidos.
+----------------------------------------------------------------*/
+function trackPixel(eventName, params = {}, isCustom = false) {
+  if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+  try {
+    window.fbq(isCustom ? "trackCustom" : "track", eventName, params);
+  } catch (err) {
+    // nunca bloqueamos la app si el pixel falla
+  }
+}
+
 const FONT_IMPORT =
   "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap');";
 
@@ -664,6 +680,7 @@ export default function RadiografiaFinanciera() {
 
   const goNext = () => {
     if (step === TOTAL_STEPS - 1) {
+      trackPixel("CompleteRegistration", { content_name: "Radiografía Financiera" });
       setScreen("contact");
     } else {
       setStep((s) => s + 1);
@@ -788,6 +805,11 @@ export default function RadiografiaFinanciera() {
         body: new URLSearchParams(payload).toString(),
       });
       setLeadStatus("sent");
+      trackPixel("Lead", {
+        content_name: "Radiografía Financiera",
+        value: results.total,
+        band: results.band,
+      });
     } catch (err) {
       // Nunca bloqueamos al usuario si falla el envío — solo lo registramos.
       setLeadStatus("error");
@@ -1052,7 +1074,10 @@ export default function RadiografiaFinanciera() {
       <BackgroundBlobs />
 
       <div style={FRAME} className="luis-animate" key={screen + step}>
-        {screen === "intro" && <IntroScreen data={data} update={update} onStart={() => setScreen("question")} />}
+        {screen === "intro" && <IntroScreen data={data} update={update} onStart={() => {
+          trackPixel("RadiografiaInicio", { content_name: "Radiografía Financiera" }, true);
+          setScreen("question");
+        }} />}
         {screen === "question" && (
           <div style={{ display: "flex", flexDirection: "column", height: "100%", padding: "26px 26px 22px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 22 }}>
@@ -1407,6 +1432,14 @@ function ResultScreen({ data, results, onRestart, onEdit, update, submitMarketin
   const [showMarketingPrompt, setShowMarketingPrompt] = useState(false);
   const [marketingAsked, setMarketingAsked] = useState(false);
 
+  useEffect(() => {
+    trackPixel("RadiografiaResultadoVisto", {
+      content_name: "Radiografía Financiera",
+      band: results.band,
+      badge: results.badge,
+    }, true);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleShareTool = async () => {
     const shareData = {
       title: "Radiografía Financiera · Mis Finanzas con Luis",
@@ -1660,6 +1693,7 @@ function ResultScreen({ data, results, onRestart, onEdit, update, submitMarketin
         <div style={{ display: "flex", justifyContent: "center", gap: 22, padding: "4px 0 2px" }}>
           <CircularIconButton
             href={buildDoubtsWhatsAppUrl(data, results)}
+            onClick={() => trackPixel("Contact", { content_name: "WhatsApp - Tengo dudas" })}
             label="Tengo dudas"
             bg="linear-gradient(135deg, #25D366, #1DA851)"
             shadow="0 10px 22px rgba(37,211,102,0.4)"
@@ -1668,6 +1702,7 @@ function ResultScreen({ data, results, onRestart, onEdit, update, submitMarketin
           </CircularIconButton>
           <CircularIconButton
             href={CALENDLY_URL}
+            onClick={() => trackPixel("Schedule", { content_name: "Agendar asesoría" })}
             label="Asesoría"
             bg={`linear-gradient(135deg, ${C.navyBrand}, ${C.navy})`}
             shadow="0 10px 22px rgba(11,31,61,0.35)"
